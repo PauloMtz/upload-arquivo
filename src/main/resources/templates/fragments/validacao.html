@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+    <html xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+    <div th:if="${#fields.hasAnyErrors()}" th:fragment="validacao">	
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div th:each="error : ${#fields.detailedErrors()}">
+                <i class="oi oi-warning"></i>
+                <span th:text="${error.message}"></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

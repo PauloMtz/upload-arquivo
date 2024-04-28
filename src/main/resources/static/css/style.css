@@ -1,0 +1,39 @@
+.container {
+    min-height: 73vh;
+    padding-top: 20px;
+}
+.container h2 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+.navbar {
+    border-bottom: 1px solid #ccc;
+    padding-left: 20px;
+    padding-right: 70px;
+}
+.navbar-brand {
+    font-size: 22px;
+}
+.btn {
+    min-width: 100px;
+}
+.row {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+label {
+    margin-bottom: 5px;
+}
+.pesquisa {
+    float: right;
+    width: 380px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+footer .row {
+    border-top: 1px solid #E6E6E6;
+    padding-top: 10px;
+    padding-left: 40%;
+    color: #888;
+}
