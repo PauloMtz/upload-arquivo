@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+
+<body>
+    <div class="container" layout:fragment="corpo">
+        <h2>Upload de 01 arquivo</h2>
+
+        <form th:action="@{/upload/cadastrar}" method="POST" 
+            enctype="multipart/form-data">
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label>Upload-01</label>
+                    <input type="file" name="imagem" class="form-control" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <button type="submit" class="btn btn-outline-primary">Salvar</button>
+                    <a class="btn btn-outline-warning" th:href="@{/}">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
