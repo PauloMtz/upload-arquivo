@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,13 @@ public class UploadController {
     public ModelAndView cadastrar() {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("upload/form-1"); // template
+        return mv;
+    }
+
+    @GetMapping("/cadastrar-varios")
+    public ModelAndView cadastrar2() {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("upload/form-2"); // template
         return mv;
     }
 
@@ -58,5 +67,40 @@ public class UploadController {
         }
 
         return "upload/view"; // template
+    }
+
+    @PostMapping("/cadastrar-varios")
+    public String uploads2(@RequestParam("imagens") MultipartFile[] arquivos, ModelMap model) {
+        
+        List<String> nomesArquivos = new ArrayList<String>();
+        System.out.println("\n>>> Informações:\n");
+
+        for (MultipartFile arquivo : arquivos) {
+            System.out.println("Nome: " + arquivo.getOriginalFilename() + "\n");
+            System.out.println("Tamanho: " + arquivo.getSize() + "\n");
+            System.out.println("Tipo: " + arquivo.getContentType() + "\n");
+            System.out.println("----------------------\n");
+
+            try {
+                File pastaLocal = new File(new ClassPathResource(".")
+                    .getFile().getPath() + "/static/uploads");
+    
+                if (!pastaLocal.exists()) {
+                    pastaLocal.mkdirs();
+                }
+    
+                String nomeArquivo = NomeArquivoHelper.gerarNomeArquivo(arquivo.getOriginalFilename());
+                Path path = Paths.get(pastaLocal.getAbsolutePath() + File.separator + nomeArquivo);
+                Files.copy(arquivo.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                nomesArquivos.add(nomeArquivo);
+                model.put("fotos", nomesArquivos);
+                model.addAttribute("success", "Arquivos enviados com sucesso");
+                System.out.println("Nome final: " + nomeArquivo);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return "upload/view-2"; // template
     }
 }

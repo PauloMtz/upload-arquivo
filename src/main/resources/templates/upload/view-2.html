@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+
+<body>
+    <div class="container" layout:fragment="corpo">
+        <h2>Upload de vários arquivos</h2>
+
+        <div th:replace="~{fragments/alerta}"></div>
+        
+        <!-- /target/classes/static/uploads/arquivo_copiado -->
+        <ul>
+            <li th:each="foto : ${fotos}">
+                <img th:src="@{'/uploads/' + ${foto}}" width="120" />
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
