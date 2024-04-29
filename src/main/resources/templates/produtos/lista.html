@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+    layout:decorate="~{layout}">
+<body>
+    <div class="container" layout:fragment="corpo">
+        <h2>Produtos</h2>
+
+        <div class="pesquisa">
+            <form>
+                <div class="input-group pesquisa">
+                    <input type="search" class="form-control rounded" placeholder="Pesquisar nome..." 
+                        aria-label="Search" aria-describedby="search-addon" th:name="nome" />
+                    <input type="submit" class="btn btn-outline-primary" value="Buscar" />
+                </div>
+            </form>
+        </div>
+
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Imagem</th>
+                        <th scope="col">Descrição</th>
+                        <th colspan="2" style="text-align: center;">Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="produto : ${produtos}">
+                        <td>
+                            <img th:src="@{/produto/mostrarImagem/{imagem}(imagem=${produto.foto})}" 
+                                width="100"/>
+                        </td>
+                        <td th:text="${produto.descricao}"></td>
+                        <td align="center">
+                            <a class="btn btn-outline-primary btn-sm">Atualizar</a>
+                        </td>
+                        <td align="center">
+                            <a class="btn btn-outline-danger btn-sm">Excluir</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

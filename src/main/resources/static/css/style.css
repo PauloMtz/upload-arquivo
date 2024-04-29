@@ -37,3 +37,6 @@ footer .row {
     padding-left: 40%;
     color: #888;
 }
+table td {
+    align-content: center;
+}
