@@ -83,4 +83,36 @@ public class ProdutoController {
 
 		return null;
 	}
+
+    @GetMapping("/editar/{id}")
+    public ModelAndView carregarProduto(@PathVariable Long id) {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("produtos/form");
+        mv.addObject("produto", produtoRepository.findById(id));
+        return mv;
+    }
+
+    @PostMapping("/editar/{id}")
+    public String editarProduto(@RequestParam("imagem") MultipartFile arquivo, @PathVariable Long id, 
+        @Valid Produto produto, BindingResult result) throws Exception {
+
+        if (result.hasErrors()) {
+            return "produtos/form";
+        }
+
+        // -------- tratamento do upload de imagem --------
+        var produtoAtual = produtoService.buscarPorId(id);
+
+        // verifica se tem uma foto no cadastro
+        if (arquivo.isEmpty()) {
+            produto.setFoto(produtoAtual.getFoto());
+        } else {
+            var filename = uploadService.gravar(arquivo);
+            produto.setFoto(filename);
+        }
+        // ----- fim tratamento de uploade de imagem ------
+
+        produtoService.salvar(produto);
+        return "redirect:/produto/listar";
+    }
 }

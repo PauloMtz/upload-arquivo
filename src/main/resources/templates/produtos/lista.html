@@ -32,7 +32,10 @@
                         </td>
                         <td th:text="${produto.descricao}"></td>
                         <td align="center">
-                            <a class="btn btn-outline-primary btn-sm">Atualizar</a>
+                            <a class="btn btn-outline-primary btn-sm"
+                                th:href="@{/produto/editar/{id} (id=${produto.id})}">
+                                Atualizar
+                            </a>
                         </td>
                         <td align="center">
                             <a class="btn btn-outline-danger btn-sm">Excluir</a>
