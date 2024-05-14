@@ -41,30 +41,26 @@ public class UploadController {
 
     @PostMapping("/cadastrar")
     public String upload(@RequestParam("imagem") MultipartFile arquivo,
-        ModelMap model) {
+        ModelMap model) throws IOException {
         
         System.out.println("\n>>> Informações:\n");
         System.out.println("Nome: " + arquivo.getOriginalFilename() + "\n");
         System.out.println("Tamanho: " + arquivo.getSize() + "\n");
         System.out.println("Tipo: " + arquivo.getContentType() + "\n");
 
-        try {
-            File pastaLocal = new File(new ClassPathResource(".")
-                .getFile().getPath() + "/static/uploads");
+        File pastaLocal = new File(new ClassPathResource(".")
+            .getFile().getPath() + "/static/uploads");
 
-            if (!pastaLocal.exists()) {
-                pastaLocal.mkdirs();
-            }
-
-            String nomeArquivo = NomeArquivoHelper.gerarNomeArquivo(arquivo.getOriginalFilename());
-            Path path = Paths.get(pastaLocal.getAbsolutePath() + File.separator + nomeArquivo);
-            Files.copy(arquivo.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-            model.put("foto", nomeArquivo);
-            model.addAttribute("success", String.format("Nome do arquivo: %s", nomeArquivo));
-            System.out.println("Nome final: " + nomeArquivo);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!pastaLocal.exists()) {
+            pastaLocal.mkdirs();
         }
+
+        String nomeArquivo = NomeArquivoHelper.gerarNomeArquivo(arquivo.getOriginalFilename());
+        Path path = Paths.get(pastaLocal.getAbsolutePath() + File.separator + nomeArquivo);
+        Files.copy(arquivo.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        model.put("foto", nomeArquivo);
+        model.addAttribute("success", String.format("Nome do arquivo: %s", nomeArquivo));
+        System.out.println("Nome final: " + nomeArquivo);
 
         return "upload/view"; // template
     }

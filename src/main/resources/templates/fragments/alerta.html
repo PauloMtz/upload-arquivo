@@ -6,3 +6,12 @@
       </span>
     </div>
 </div>
+
+<div th:if="${error} != null">
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="oi oi-check"></i>
+    <span>
+        <strong th:text="${error}"></strong>
+    </span>
+  </div>
+</div>

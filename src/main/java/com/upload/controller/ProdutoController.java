@@ -55,18 +55,13 @@ public class ProdutoController {
             return "materiais/form";
         }
 
-        try {
-            // antes de salvar objeto, gravar nome foto
-            var arquivoNome = uploadService.gravar(arquivo);
-            produto.setFoto(arquivoNome);
+        // antes de salvar objeto, gravar nome foto
+        var arquivoNome = uploadService.gravar(arquivo);
+        produto.setFoto(arquivoNome);
 
-            produtoService.salvar(produto);
-            
-            return "redirect:/produto/listar";
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "materiais/form";
-        }
+        produtoService.salvar(produto);
+        
+        return "redirect:/produto/listar";
     }
 
     @GetMapping("/listar")
