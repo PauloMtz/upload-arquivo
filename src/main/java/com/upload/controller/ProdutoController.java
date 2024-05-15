@@ -115,4 +115,10 @@ public class ProdutoController {
         produtoService.salvar(produto);
         return "redirect:/produto/listar";
     }
+
+    @GetMapping("/excluir/{id}")
+    public String removerArquivo(@PathVariable Long id) {
+        produtoService.excluir(id);
+        return "redirect:/produto/listar";
+    }
 }

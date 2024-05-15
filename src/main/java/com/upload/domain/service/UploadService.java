@@ -1,5 +1,6 @@
 package com.upload.domain.service;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -7,6 +8,7 @@ import java.nio.file.Paths;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.upload.exception.ArquivoException;
 import com.upload.helper.NomeArquivoHelper;
 
 @Service
@@ -30,5 +32,19 @@ public class UploadService {
 
         // retorna o nome do arquivo criado
         return nomeArquivo;
+    }
+
+    public void remover(String nomeArquivo) {
+
+        try {
+            Path arquivoPath = getArquivoPath(nomeArquivo);
+            Files.deleteIfExists(arquivoPath);
+        } catch (IOException e) {
+            throw new ArquivoException("Erro ao remover arquivo", e);
+        }
+    }
+
+    private Path getArquivoPath(String nomeArquivo) {
+        return pastaUpload.resolve(Path.of(nomeArquivo));
     }
 }

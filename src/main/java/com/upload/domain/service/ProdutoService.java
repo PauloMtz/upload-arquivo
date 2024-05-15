@@ -13,6 +13,9 @@ public class ProdutoService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @Autowired
+    private UploadService uploadService;
+
     public Produto salvar(Produto produto) {
         return produtoRepository.save(produto);
     }
@@ -25,5 +28,14 @@ public class ProdutoService {
         }
 
         throw new ProdutoNaoEncontradoException("Produto não encontrado.");
+    }
+
+    public void excluir(Long id) {
+        var produtoEncontrado = buscarPorId(id);
+        produtoRepository.delete(produtoEncontrado);
+        // atualiza JPA
+        produtoRepository.flush();
+        // remove foto na pasta
+        uploadService.remover(produtoEncontrado.getFoto());
     }
 }
