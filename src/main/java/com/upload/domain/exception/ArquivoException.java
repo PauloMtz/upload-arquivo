@@ -1,4 +1,4 @@
-package com.upload.exception;
+package com.upload.domain.exception;
 
 public class ArquivoException extends RuntimeException {
     

@@ -3,13 +3,15 @@
     layout:decorate="~{layout}">
 <body>
     <div class="container" layout:fragment="corpo">
-        <h2>Produtos</h2>
+        <h2>Estoque</h2>
+        
+        <div th:replace="~{fragments/alerta}"></div>
 
         <div class="pesquisa">
-            <form>
-                <div class="input-group pesquisa">
-                    <input type="search" class="form-control rounded" placeholder="Pesquisar nome..." 
-                        aria-label="Search" aria-describedby="search-addon" th:name="nome" />
+            <form th:action="@{/produto/buscar-produto}">
+                <div class="input-group">
+                    <input type="search" class="form-control rounded" placeholder="Pesquisar código..." 
+                        aria-label="Search" aria-describedby="search-addon" th:name="codigo" />
                     <input type="submit" class="btn btn-outline-primary" value="Buscar" />
                 </div>
             </form>
@@ -19,18 +21,26 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">Imagem</th>
-                        <th scope="col">Descrição</th>
+                        <!--<th scope="col">Imagem</th>-->
+                        <th scope="col">Código</th>
+                        <th scope="col">Produto</th>
+                        <th scope="col">Preço</th>
+                        <th scope="col">Saldo</th>
+                        <th scope="col">Ativo</th>
+                        <th scope="col">Criado em</th>
+                        <th scope="col">Atualizado</th>
                         <th colspan="2" style="text-align: center;">Opções</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="produto : ${produtos}">
-                        <td>
-                            <img th:src="@{/produto/mostrarImagem/{imagem}(imagem=${produto.foto})}" 
-                                width="100"/>
-                        </td>
-                        <td th:text="${produto.descricao}"></td>
+                        <td th:text="${produto.codigo}"></td>
+                        <td th:text="${produto.nome}"></td>
+                        <td th:text="|R$ ${{produto.preco}}|"></td>
+                        <td align="center" th:text="${produto.saldo}"></td>
+                        <td th:text="${produto.ativo == true ? 'Sim' : 'Não'}"></td>
+                        <td th:text="${#temporals.format(produto.dataCriacao, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(produto.dataAtualizacao, 'dd/MM/yyyy')}"></td>
                         <td align="center">
                             <a class="btn btn-outline-primary btn-sm"
                                 th:href="@{/produto/editar/{id} (id=${produto.id})}">

@@ -1,4 +1,4 @@
-package com.upload.controller;
+package com.upload.web.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,11 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.upload.helper.NomeArquivoHelper;
+import com.upload.domain.service.UploadService;
 
 @Controller
 @RequestMapping("/upload")
 public class UploadController {
+
+    @Autowired
+    private UploadService uploadService;
     
     @GetMapping("/cadastrar")
     public ModelAndView cadastrar() {
@@ -55,7 +59,7 @@ public class UploadController {
             pastaLocal.mkdirs();
         }
 
-        String nomeArquivo = NomeArquivoHelper.gerarNomeArquivo(arquivo.getOriginalFilename());
+        String nomeArquivo = uploadService.gerarNomeArquivo(arquivo.getOriginalFilename());
         Path path = Paths.get(pastaLocal.getAbsolutePath() + File.separator + nomeArquivo);
         Files.copy(arquivo.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         model.put("foto", nomeArquivo);
@@ -85,7 +89,7 @@ public class UploadController {
                     pastaLocal.mkdirs();
                 }
     
-                String nomeArquivo = NomeArquivoHelper.gerarNomeArquivo(arquivo.getOriginalFilename());
+                String nomeArquivo = uploadService.gerarNomeArquivo(arquivo.getOriginalFilename());
                 Path path = Paths.get(pastaLocal.getAbsolutePath() + File.separator + nomeArquivo);
                 Files.copy(arquivo.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                 nomesArquivos.add(nomeArquivo);

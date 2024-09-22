@@ -1,3 +1,6 @@
+* {
+    font-size: small;
+}
 .container {
     min-height: 73vh;
     padding-top: 20px;

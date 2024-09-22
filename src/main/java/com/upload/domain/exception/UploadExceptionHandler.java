@@ -1,4 +1,4 @@
-package com.upload.exception;
+package com.upload.domain.exception;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

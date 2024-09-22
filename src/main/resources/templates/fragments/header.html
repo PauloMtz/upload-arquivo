@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/}">
           <img th:src="@{/img/spring-boot.png}" />
-          UPLOAD DE ARQUIVOS
+          SISTEMA DE CONTROLE
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
           data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
@@ -31,11 +31,12 @@
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
                   role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Produtos
+                  Estoque
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" th:href="@{/produto/cadastrar}">Cadastro</a></li>
                   <li><a class="dropdown-item" th:href="@{/produto/listar}">Lista</a></li>
+                  <li><a class="dropdown-item" th:href="@{/estoque/receber}">Entrada</a></li>
                 </ul>
               </li>
             </ul>
