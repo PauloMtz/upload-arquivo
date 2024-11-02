@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+
+<body>
+    <div class="container" layout:fragment="corpo">
+        <h2>Clientes</h2>
+
+        <div th:replace="~{fragments/alerta}"></div>
+
+        <div class="pesquisa">
+            <form th:action="@{/cliente/buscar}">
+                <div class="input-group">
+                    <input type="search" class="form-control rounded" placeholder="Pesquisar nome..." 
+                        aria-label="Search" aria-describedby="search-addon" th:name="nome" />
+                    <input type="submit" class="btn btn-outline-primary" value="Buscar" />
+                </div>
+            </form>
+        </div>
+
+        <div>
+            <table class="table table-striped" th:if="${!clientes.isEmpty()}">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Telefone</th>
+                        <th scope="col">Cidade</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Criado em</th>
+                        <th scope="col">Atualizado</th>
+                        <th id="opt"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="cli : ${clientes}">
+                        <td th:text="${cli.nome}"></td>
+                        <td th:text="${cli.email}"></td>
+                        <td th:text="${cli.telefone}"></td>
+                        <td th:text="${cli.endereco.cidade}"></td>
+                        <td th:text="${cli.endereco.uf}"></td>
+                        <td th:text="${#temporals.format(cli.dataCriacao, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(cli.dataAtualizacao, 'dd/MM/yyyy')}"></td>
+                        <td>
+                            <a class="btn btn-outline-primary btn-sm"
+                                th:href="@{/cliente/editar/{id}(id=${cli.id})}">Atualizar</a>
+
+                            <a class="btn btn-outline-danger btn-sm"
+                                th:href="@{/cliente/excluir/{id}(id=${cli.id})}"
+                                th:data-confirm-delete="|Confirma exclusão de ${cli.nome}?|"
+                                onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
+                                Excluir
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <span th:if="${clientes.isEmpty()}">
+                <h5>Nenhum registro</h5>
+            </span>
+            <div th:replace="~{fragments/paginacao}"></div>
+        </div>
+    </div>
+</body>
+</html>

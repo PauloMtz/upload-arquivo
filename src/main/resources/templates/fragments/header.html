@@ -18,25 +18,29 @@
               <li class="nav-item active">
                 <a class="nav-link" aria-current="page" th:href="@{/}">Início</a>
               </li>
+              <li class="nav-item active"></li>
+                <a class="nav-link" aria-current="page" th:href="@{/estoque/receber}">Estoque</a>
+              </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
                   role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Upload
+                  Cadastros
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" th:href="@{/upload/cadastrar}">Formulário-1</a></li>
-                  <li><a class="dropdown-item" th:href="@{/upload/cadastrar-varios}">Formulário-2</a></li>
+                  <li><a class="dropdown-item" th:href="@{/produto/cadastrar}">Produtos</a></li>
+                  <li><a class="dropdown-item" th:href="@{/cliente/cadastrar}">Clientes</a></li>
+                  <li><a class="dropdown-item" th:href="@{/equipamento/cadastrar}">Equipamentos</a></li>
                 </ul>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
                   role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Estoque
+                  Consultas
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" th:href="@{/produto/cadastrar}">Cadastro</a></li>
-                  <li><a class="dropdown-item" th:href="@{/produto/listar}">Lista</a></li>
-                  <li><a class="dropdown-item" th:href="@{/estoque/receber}">Entrada</a></li>
+                  <li><a class="dropdown-item" th:href="@{/produto/listar}">Produtos</a></li>
+                  <li><a class="dropdown-item" th:href="@{/cliente/listar}">Clientes</a></li>
+                  <li><a class="dropdown-item" th:href="@{/equipamento/listar}">Equipamentos</a></li>
                 </ul>
               </li>
             </ul>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+
+<body>
+    <div class="container" layout:fragment="corpo">
+        <h2>Cadastro de Equipamento</h2>
+
+        <div th:replace="~{fragments/alerta}"></div>
+
+        <form th:object="${equipamento}" method="POST">
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label>Equipamento</label>
+                    <input type="text" class="form-control" placeholder="Equipamento..."
+                        th:field="*{descricao}"
+                        th:classappend="${#fields.hasErrors('descricao')} ? 'is-invalid'" />
+
+                    <div class="invalid-feedback">
+                        <span th:errors="*{descricao}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label>Marca</label>
+                    <input type="text" class="form-control" placeholder="Marca..."
+                        th:field="*{marca}"
+                        th:classappend="${#fields.hasErrors('marca')} ? 'is-invalid'" />
+
+                    <div class="invalid-feedback">
+                        <span th:errors="*{marca}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label>Modelo</label>
+                    <input type="text" class="form-control" placeholder="Modelo..."
+                        th:field="*{modelo}"
+                        th:classappend="${#fields.hasErrors('modelo')} ? 'is-invalid'" />
+
+                    <div class="invalid-feedback">
+                        <span th:errors="*{modelo}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label>Número de Série</label>
+                    <input type="text" class="form-control" placeholder="Número de série..."
+                        th:field="*{numSerie}" th:readonly="${id != null}"
+                        th:classappend="${#fields.hasErrors('numSerie')} ? 'is-invalid'" />
+
+                    <div class="invalid-feedback">
+                        <span th:errors="*{numSerie}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <button type="submit" class="btn btn-outline-primary">Salvar</button>
+                    <a class="btn btn-outline-warning" th:href="@{/equipamento/listar}">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

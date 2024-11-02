@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+
+<body>
+    <div class="container" layout:fragment="corpo">
+        <h2>Consulta Equipamento</h2>
+
+        <div th:replace="~{fragments/alerta}"></div>
+
+        <div class="pesquisa">
+            <form th:action="@{/equipamento/buscar}">
+                <div class="input-group">
+                    <input type="search" class="form-control rounded" placeholder="Pesquisar número de série..." 
+                        aria-label="Search" aria-describedby="search-addon" th:name="numSerie" />
+                    <input type="submit" class="btn btn-outline-primary" value="Buscar" />
+                </div>
+            </form>
+        </div>
+
+        <div>
+            <table class="table table-striped" th:if="${equipamentos != null}">
+                <thead>
+                    <tr>
+                        <th scope="col">Equipamento</th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Modelo</th>
+                        <th scope="col">Número de série</th>
+                        <th scope="col">Data Cadastro</th>
+                        <th scope="col">Atualização</th>
+                        <th id="opt"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="equip : ${equipamentos}">
+                        <td th:text="${equip.descricao}"></td>
+                        <td th:text="${equip.marca}"></td>
+                        <td th:text="${equip.modelo}"></td>
+                        <td th:text="${equip.numSerie}"></td>
+                        <td th:text="${#temporals.format(equip.dataCriacao, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(equip.dataAtualizacao, 'dd/MM/yyyy')}"></td>
+                        <td>
+                            <a class="btn btn-outline-primary btn-sm"
+                                th:href="@{/equipamento/editar/{id}(id=${equip.id})}">Atualizar</a>
+
+                            <a class="btn btn-outline-danger btn-sm"
+                                th:href="@{/equipamento/excluir/{id}(id=${equip.id})}"
+                                th:data-confirm-delete="|Confirma exclusão de ${equip.descricao}?|"
+                                onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
+                                Excluir
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
