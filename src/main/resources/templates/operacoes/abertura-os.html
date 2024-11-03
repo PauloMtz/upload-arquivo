@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+
+<body>
+    <div class="container" layout:fragment="corpo">
+        <h2>Ordem de Serviço</h2>
+
+        <div th:replace="~{fragments/alerta}"></div>
+        
+        <div class="form-entrada">
+            <form th:object="${ordemServico}" method="POST">
+                    
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Equipamento</label>
+                        <input type="text" class="form-control" th:field="*{equipamento.descricao}" readonly />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label>Marca</label>
+                        <input type="text" class="form-control" th:field="*{equipamento.marca}" readonly />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label>Modelo</label>
+                        <input type="text" class="form-control" th:field="*{equipamento.modelo}" readonly />
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label>Número de série</label>
+                        <input type="text" class="form-control" th:field="*{equipamento.numSerie}" readonly />
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label>Valor</label>
+                        <input type="text" class="form-control" th:field="*{valor}" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label>Descrição</label>
+                        <textarea class="form-control" rows="3" placeholder="Descrição..."
+                            th:field="*{descricao}"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <input type="hidden" th:field="*{recebimento.id}" />
+                        <button type="submit" class="btn btn-outline-primary">Salvar</button>
+                        <a class="btn btn-outline-warning" th:href="@{/}">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

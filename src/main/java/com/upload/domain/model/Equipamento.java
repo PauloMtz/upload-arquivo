@@ -1,12 +1,16 @@
 package com.upload.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
@@ -48,4 +52,8 @@ public class Equipamento {
     @PastOrPresent
     @Column(name = "data_atualizacao", insertable = false)
     private LocalDateTime dataAtualizacao;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "equipamento")
+    private List<Recebimento> recebimentos;
 }

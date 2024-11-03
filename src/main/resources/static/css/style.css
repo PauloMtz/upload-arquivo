@@ -43,3 +43,11 @@ footer .row {
 table td {
     align-content: center;
 }
+.form-entrada {
+    margin-top: 100px;
+}
+.card-img-top {
+    width: 240px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}

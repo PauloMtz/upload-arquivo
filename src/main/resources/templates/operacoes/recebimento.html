@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+
+<body>
+    <div class="container" layout:fragment="corpo">
+        <h2>Entrada de Equipamento</h2>
+
+        <div th:replace="~{fragments/alerta}"></div>
+        <div id="alert-rec"></div>
+
+        <div class="pesquisa">
+            <form id="form-buscar-equip">
+                <div class="input-group">
+                    <input type="search" class="form-control rounded" placeholder="Número de série..." 
+                        aria-label="Search" aria-describedby="search-addon" id="rec-equipamento" name="numSerie" />
+                    <input type="submit" class="btn btn-outline-primary" value="Buscar" />
+                </div>
+            </form>
+        </div>
+        
+        <div class="form-entrada">
+            <form th:object="${recebimento}" method="POST" id="form-entrada">
+                <input type="hidden" id="equipamento-id" name="equipamento" th:value="${equipamento}" />
+                <input type="hidden" id="cliente-id" name="cliente" th:value="${cliente}" />
+                    
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        <label>Equipamento</label>
+                        <input type="text" class="form-control" id="descricao" name="descricao" readonly />
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label>Marca</label>
+                        <input type="text" class="form-control" id="marca" name="marca" readonly />
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label>Modelo</label>
+                        <input type="text" class="form-control" id="modelo" name="modelo" readonly />
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label>Número de série</label>
+                        <input type="text" class="form-control" id="num-serie" name="numSerie" readonly />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label>Cliente</label>
+                        <select class="form-control" id="select-cliente">
+                            <option value="">Selecione</option>
+                            <option th:each="cliente : ${clientes}" id="id-cliente" name="id"
+                                th:value="${cliente.id}" th:text="${cliente.nome}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label>Contato</label>
+                        <input type="text" class="form-control" id="contato" name="telefone" readonly />
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label>E-mail</label>
+                        <input type="text" class="form-control" id="email" name="email" readonly />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label>Observação</label>
+                        <textarea class="form-control" rows="3" placeholder="Observação..."
+                            th:field="*{observacao}"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <button type="submit" class="btn btn-outline-primary">Salvar</button>
+                        <a class="btn btn-outline-warning" th:href="@{/}">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

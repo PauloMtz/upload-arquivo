@@ -4,14 +4,48 @@
     layout:decorate="~{layout}">
 <body>
     <div class="container" layout:fragment="corpo">
-        <h2>Página Inicial</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum</p>
+        <h2>Equipamentos recebidos</h2>
+        
+        <div class="col-md-12">
+            <table class="table table-striped" th:if="${!recebimentos.isEmpty()}">
+                <div th:replace="~{fragments/alerta}"></div>
+
+                <thead>
+                    <tr>
+                        <th scope="col">Equipamento</th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Modelo</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Data Rec</th>
+                        <th scope="col">Status</th>
+                        <th id="opt"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="rec : ${recebimentos}">
+                        <td th:text="${rec.equipamento.descricao}"></td>
+                        <td th:text="${rec.equipamento.marca}"></td>
+                        <td th:text="${rec.equipamento.modelo}"></td>
+                        <td th:text="${rec.cliente.nome}"></td>
+                        <td th:text="${#temporals.format(rec.dataRecebimento, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${rec.status.getDescricao}"></td>
+                        <td><!--<a class="btn btn-outline-warning btn-sm"
+                                th:href="@{/operacao/detalhes/{id} (id=${rec.id})}">Detalhes
+                            </a>-->
+                            <a class="btn btn-outline-primary btn-sm" 
+                                th:href="@{/operacao/ordem-servico/{id} (id=${rec.id})}">Criar OS
+                            </a>
+                            <!--<a class="btn btn-outline-danger btn-sm"
+                                th:href="@{/operacao/cancelar/{id} (id=${rec.id})}">Cancelar Atendimento
+                            </a>-->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <span th:if="${recebimentos.isEmpty()}">
+                <h5>Nenhum registro</h5>
+            </span>
+        </div>
     </div>
 </body>
 </html>
