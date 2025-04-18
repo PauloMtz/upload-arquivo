@@ -24,12 +24,13 @@ $("#form-buscar-equip").submit(function(event) {
 });
 
 $("#select-cliente").blur(function() {
-    var cliente = $("#id-cliente").val();
+    var clienteid = $(this).val();
+    //console.log("ID cliente:", clienteid);
 
     $.ajax({
         method: "GET",
         url: "/cliente/buscar-cliente",
-        data: {id: cliente},
+        data: {id: clienteid},
         success: function(cli) {
             console.log("\n>>> Sucesso --------------------", cli);
             $("#contato").val(cli.telefone);
@@ -40,4 +41,9 @@ $("#select-cliente").blur(function() {
             console.log("\n>>> Erro --------------", xhr.responseText);
         }
     });
+});
+
+$("#btn-detalhes").on("click", function() {
+    var recid = $(this).val();
+    console.log(">>> Recebimento: ", recid);
 });

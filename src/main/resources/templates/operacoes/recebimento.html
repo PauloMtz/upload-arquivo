@@ -50,8 +50,9 @@
                         <label>Cliente</label>
                         <select class="form-control" id="select-cliente">
                             <option value="">Selecione</option>
-                            <option th:each="cliente : ${clientes}" id="id-cliente" name="id"
-                                th:value="${cliente.id}" th:text="${cliente.nome}"></option>
+                            <option th:each="cliente : ${clientes}"
+                                th:value="${cliente.id}" th:text="${cliente.nome}">
+                            </option>
                         </select>
                     </div>
 

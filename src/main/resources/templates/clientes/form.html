@@ -21,8 +21,9 @@
 
                 <div class="form-group col-md-4">
                     <label>CPF</label>
-                    <input type="text" class="form-control" placeholder="CPF..." maxlength="11"
-                        th:field="*{cpf}" th:classappend="${#fields.hasErrors('cpf')} ? 'is-invalid'"
+                    <input type="text" class="form-control" placeholder="CPF..." 
+                        maxlength="11" th:field="*{cpf}" 
+                        th:classappend="${#fields.hasErrors('cpf')} ? 'is-invalid'"
                         th:readOnly="${cliente.cpf != null}" />
 
                     <div class="invalid-feedback">

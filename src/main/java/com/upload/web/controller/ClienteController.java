@@ -127,6 +127,7 @@ public class ClienteController {
 
         try {
             Cliente cliente = service.buscarPorId(Long.parseLong(id));
+            System.out.println("\n>>> ID cliente: " + id);
             return ResponseEntity.ok(cliente);
         } catch (Exception e) {
             attr.addFlashAttribute("error", e.getMessage());

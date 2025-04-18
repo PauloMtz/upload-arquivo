@@ -64,7 +64,7 @@ public class OrdemServico {
 
     // altera o status da OS
     public void abreOrdemServico() {
-        setStatus(status.OS_ABERTA);
+        setStatus(Status.OS_ABERTA);
         setDataOrdemServico(LocalDateTime.now());
     }
 }

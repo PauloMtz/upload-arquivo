@@ -53,11 +53,11 @@ public class Recebimento {
 
     // altera o status
     public void receberEquipamento() {
-        setStatus(status.RECEBE_EQUIPAMENTO);
+        setStatus(Status.RECEBE_EQUIPAMENTO);
         setDataRecebimento(LocalDateTime.now());
     }
 
     public void abreOrdemServico() {
-        setStatus(status.ABRE_ORDEM_SERVICO);
+        setStatus(Status.ABRE_ORDEM_SERVICO);
     }
 }
