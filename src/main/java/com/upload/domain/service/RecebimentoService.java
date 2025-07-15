@@ -26,7 +26,11 @@ public class RecebimentoService {
     }
 
     public List<Recebimento> lista() {
-        List<Recebimento> equipamentos = repository.findAll();
+        List<Recebimento> equipamentos = repository.listarRecebimentos();
 		return equipamentos;
 	}
+
+    public Long contadorRecebimentos() {
+        return repository.countByEquipamento();
+    }
 }

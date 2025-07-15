@@ -68,4 +68,8 @@ public class ClienteService {
         Cliente cliente = repository.findByEmail(email);
         return cliente;
     }
+
+    public Long contadorClientes() {
+        return repository.count();
+    }
 }

@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.PastOrPresent;
@@ -20,7 +21,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString(exclude = "dataRecebimento")
+@ToString
 @Getter
 @Setter
 @Entity
@@ -42,19 +43,28 @@ public class Recebimento {
     private Status status;
 
     @Valid
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "equipamento_id")
     private Equipamento equipamento;
 
     @Valid
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
+
+    @OneToOne(mappedBy = "recebimento")
+    private OrdemServico ordemServico;
 
     // altera o status
     public void receberEquipamento() {
         setStatus(Status.RECEBE_EQUIPAMENTO);
         setDataRecebimento(LocalDateTime.now());
+    }
+
+    public void efetuarAtendimento() {
+        setStatus(Status.EFETUA_ATENDIMENTO);
     }
 
     public void abreOrdemServico() {

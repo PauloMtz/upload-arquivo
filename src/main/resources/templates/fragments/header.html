@@ -18,8 +18,15 @@
               <li class="nav-item active">
                 <a class="nav-link" aria-current="page" th:href="@{/home}">Início</a>
               </li>
-              <li class="nav-item active"></li>
-                <a class="nav-link" aria-current="page" th:href="@{/estoque/receber}">Estoque</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
+                  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Estoque
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" th:href="@{/estoque/receber}">Entrada</a></li>
+                  <li><a class="dropdown-item" th:href="@{/produto/listar}">Produtos Estoque</a></li>
+                </ul>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
@@ -38,7 +45,6 @@
                   Consultas
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" th:href="@{/produto/listar}">Produtos</a></li>
                   <li><a class="dropdown-item" th:href="@{/cliente/listar}">Clientes</a></li>
                   <li><a class="dropdown-item" th:href="@{/equipamento/listar}">Equipamentos</a></li>
                 </ul>
@@ -50,6 +56,9 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" th:href="@{/operacao/receber}">Entrada Equipamento</a></li>
+                  <li><a class="dropdown-item" th:href="@{/operacao/equipamentos-recebidos}">Equipamentos recebidos</a></li>
+                  <li><a class="dropdown-item" th:href="@{/ordem-servico/listar}">OS. Abertas</a></li>
+                  <li><a class="dropdown-item" th:href="@{/atendimento/listar}">OS. Atendidas</a></li>
                 </ul>
               </li>
             </ul>

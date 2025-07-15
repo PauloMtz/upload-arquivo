@@ -22,9 +22,13 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@ToString
+@Getter
+@Setter
 @Entity
 @Table(name = "ordens_servico")
 public class OrdemServico {
@@ -37,7 +41,7 @@ public class OrdemServico {
 	private String numeroOs;
 
     @NotBlank
-    @Column(name = "descricao", columnDefinition="TEXT")
+    @Column(name = "descricao")
 	private String descricao;
 
     @NotNull
@@ -52,11 +56,12 @@ public class OrdemServico {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Valid
+    @ToString.Exclude
     @OneToOne
     @JoinColumn(name = "recebimento_id")
     private Recebimento recebimento;
 
+    @ToString.Exclude
     @Valid
     @OneToOne
     @JoinColumn(name = "equipamento_id")
@@ -66,5 +71,9 @@ public class OrdemServico {
     public void abreOrdemServico() {
         setStatus(Status.OS_ABERTA);
         setDataOrdemServico(LocalDateTime.now());
+    }
+
+    public void atendeOrdemServico() {
+        setStatus(Status.OS_ATENDIDA);
     }
 }

@@ -42,22 +42,27 @@ public class ProdutoService {
         }
     }
 
-    public Produto buscarProduto(String codigo) {
+    public Produto buscarProduto(String codigo) throws ArquivoNaoEncontradoException {
         Produto produto = produtoRepository.findByCodigo(codigo);
         if (produto != null) {
             return produto;
         } else {
-            throw new ArquivoNaoEncontradoException("\n>>> Classe ProdutoService: Código não encontrado");
+            throw new ArquivoNaoEncontradoException(String.format(
+                "Não existe produto com código %s", codigo));
         }
     }
 
+    // método sugerido pelo chatGPT
     @Transactional
-    public void atualizarSaldo(Long id, Integer valor) {
-        Produto produto = produtoRepository.findById(id)
-            .orElseThrow(() -> new EntidadeNaoEncontradaException(String.format(
-                "Não existe produto com ID %d", id)));
+    public void baixarSaldo(String codigo, Integer valor) throws ArquivoNaoEncontradoException {
+        Produto produto = buscarProduto(codigo);
 
-        produto.atualizaSaldo(valor);
+        if (produto.getSaldo() < valor) {
+            throw new IllegalArgumentException(String.format(
+                "Estoque insuficiente para o produto %s. Saldo atual: %d, solicitado: %d",
+                codigo, produto.getDescricao(), valor));
+        }
+        produto.baixaSaldo(valor);
     }
 
     public Produto buscarPorNome(String nome) {

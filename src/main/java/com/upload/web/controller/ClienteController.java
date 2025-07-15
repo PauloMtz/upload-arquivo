@@ -56,12 +56,12 @@ public class ClienteController {
         model.addAttribute("pag", pag);
         model.addAttribute("clientes", clientes);
 
-        return "clientes/lista"; // template
+        return "clientes/lista";
     }
 
     @GetMapping("/cadastrar")
     public ModelAndView cadastrar() {
-        var mv = new ModelAndView("clientes/form"); // template
+        var mv = new ModelAndView("clientes/form");
         mv.addObject("cliente", new Cliente());
         return mv;
     }
@@ -71,7 +71,7 @@ public class ClienteController {
             Model model, RedirectAttributes attr) throws IOException {
 
         if (result.hasErrors()) {
-            return "clientes/form"; // template
+            return "clientes/form";
         }
 
         Cliente cliCpf = service.buscarPorCpf(cliente.getCpf());
@@ -79,18 +79,18 @@ public class ClienteController {
 
         if (cliCpf != null) {
             model.addAttribute("cpfExiste", "CPF já cadastrado no sistema.");
-            return "clientes/form"; // template
+            return "clientes/form";
         }
 
         if (cliEmail != null) {
             model.addAttribute("emailExiste", "E-mail já cadastrado no sistema.");
-            return "admin/clientes/form"; // template
+            return "admin/clientes/form";
         }
 
         cliente.setDataCriacao(LocalDateTime.now());
         service.salvar(cliente);
         attr.addFlashAttribute("success", "Registro inserido com sucesso.");
-        return "redirect:/cliente/listar"; // rota
+        return "redirect:/cliente/listar";
     }
 
     @GetMapping("/buscar")
@@ -118,7 +118,7 @@ public class ClienteController {
         model.addAttribute("pag", pag);
         model.addAttribute("clientes", clientes);
 
-        return "clientes/lista"; // template
+        return "clientes/lista";
     }
 
     @GetMapping("/buscar-cliente")
@@ -127,7 +127,6 @@ public class ClienteController {
 
         try {
             Cliente cliente = service.buscarPorId(Long.parseLong(id));
-            System.out.println("\n>>> ID cliente: " + id);
             return ResponseEntity.ok(cliente);
         } catch (Exception e) {
             attr.addFlashAttribute("error", e.getMessage());
@@ -141,11 +140,11 @@ public class ClienteController {
 
         if (clienteEncontrado == null) {
             attr.addFlashAttribute("error", "Cliente não encontrado");
-            return "redirect:/cliente/listar"; // rota
+            return "redirect:/cliente/listar";
         }
 
         model.addAttribute("cliente", clienteEncontrado);
-        return "clientes/form"; // template
+        return "clientes/form";
     }
 
     @PostMapping("/editar/{id}")
@@ -154,7 +153,7 @@ public class ClienteController {
 
         if (result.hasErrors()) {
             cliente.setId(id);
-            return "clientes/form"; // template
+            return "clientes/form";
         }
 
         Cliente cliCpf = service.buscarPorCpf(cliente.getCpf());
@@ -162,18 +161,18 @@ public class ClienteController {
 
         if (cliCpf != null && cliCpf.getId() != id) {
             attr.addFlashAttribute("cpfExiste", "CPF já cadastrado no sistema.");
-            return "redirect:/cliente/editar/" + id; // rota
+            return "redirect:/cliente/editar/" + id;
         }
 
         if (cliEmail != null && cliEmail.getId() != id) {
             attr.addFlashAttribute("emailExiste", "E-mail já cadastrado no sistema.");
-            return "redirect:/cliente/editar/" + id; // rota
+            return "redirect:/cliente/editar/" + id;
         }
 
         cliente.setDataAtualizacao(LocalDateTime.now());
         service.salvar(cliente);
         attr.addFlashAttribute("success", "Registro atualizado com sucesso.");
-        return "redirect:/cliente/listar"; // rota
+        return "redirect:/cliente/listar";
     }
 
     @GetMapping("/excluir/{id}")
@@ -181,10 +180,10 @@ public class ClienteController {
         try {
             service.excluir(id);
             attr.addFlashAttribute("success", "Registro excluído com sucesso.");
-            return "redirect:/cliente/listar"; // rota
+            return "redirect:/cliente/listar";
         } catch (Exception e) {
             attr.addFlashAttribute("error", "Esse registro não pode ser excluído");
-            return "redirect:/cliente/listar"; // rota
+            return "redirect:/cliente/listar";
         }
     }
 }

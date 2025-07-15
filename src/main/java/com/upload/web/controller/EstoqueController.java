@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.upload.domain.exception.ArquivoNaoEncontradoException;
-import com.upload.domain.model.Produto;
 import com.upload.domain.model.Entrada;
+import com.upload.domain.model.Produto;
 import com.upload.domain.service.EntradaService;
 import com.upload.domain.service.ProdutoService;
 
@@ -57,10 +56,9 @@ public class EstoqueController {
             produto = produtoService.buscar(produto.getId());
             entrada.setDataAtualizacao(LocalDateTime.now());
             entrada.setProduto(produto);
-            produto.atualizaSaldo(Integer.valueOf(entrada.getQuantidade()));
+            produto.incrementaSaldo(Integer.valueOf(entrada.getQuantidade()));
             produto.setDataAtualizacao(entrada.getDataAtualizacao());
             entradaService.salvar(entrada);
-            //System.out.println("\n" + entrada);
             attr.addFlashAttribute("success", "Cadastro efetuado com sucesso.");
             return "redirect:/produto/listar";
         } catch (Exception e) {
@@ -78,7 +76,7 @@ public class EstoqueController {
             return ResponseEntity.ok(produto);
         } catch (Exception e) {
             attr.addFlashAttribute("error", e.getMessage());
-            throw new ArquivoNaoEncontradoException("\n>>> Classe EstoqueController: Código não encontrado");
+            return ResponseEntity.badRequest().body(null);
         }
     }
 

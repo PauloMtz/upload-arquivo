@@ -32,14 +32,14 @@ public class UploadController {
     @GetMapping("/cadastrar")
     public ModelAndView cadastrar() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("upload/form-1"); // template
+        mv.setViewName("upload/form-1");
         return mv;
     }
 
     @GetMapping("/cadastrar-varios")
     public ModelAndView cadastrar2() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("upload/form-2"); // template
+        mv.setViewName("upload/form-2");
         return mv;
     }
 
@@ -66,20 +66,19 @@ public class UploadController {
         model.addAttribute("success", String.format("Nome do arquivo: %s", nomeArquivo));
         System.out.println("Nome final: " + nomeArquivo);
 
-        return "upload/view"; // template
+        return "upload/view";
     }
 
     @PostMapping("/cadastrar-varios")
     public String uploads2(@RequestParam("imagens") MultipartFile[] arquivos, ModelMap model) {
         
         List<String> nomesArquivos = new ArrayList<String>();
-        System.out.println("\n>>> Informações:\n");
 
         for (MultipartFile arquivo : arquivos) {
-            System.out.println("Nome: " + arquivo.getOriginalFilename() + "\n");
-            System.out.println("Tamanho: " + arquivo.getSize() + "\n");
-            System.out.println("Tipo: " + arquivo.getContentType() + "\n");
-            System.out.println("----------------------\n");
+            //System.out.println("Nome: " + arquivo.getOriginalFilename() + "\n");
+            //System.out.println("Tamanho: " + arquivo.getSize() + "\n");
+            //System.out.println("Tipo: " + arquivo.getContentType() + "\n");
+            //System.out.println("----------------------\n");
 
             try {
                 File pastaLocal = new File(new ClassPathResource(".")
@@ -101,6 +100,6 @@ public class UploadController {
             }
         }
 
-        return "upload/view-2"; // template
+        return "upload/view-2";
     }
 }

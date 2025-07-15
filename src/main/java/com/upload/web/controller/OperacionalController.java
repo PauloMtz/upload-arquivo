@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.upload.domain.exception.EntidadeNaoEncontradaException;
+import com.upload.domain.exception.ValidacaoException;
 import com.upload.domain.model.Equipamento;
 import com.upload.domain.model.OrdemServico;
 import com.upload.domain.model.Recebimento;
@@ -41,9 +42,16 @@ public class OperacionalController {
     private final EquipamentoRepository equipamentoRepository;
     private final RecebimentoRepository recebimentoRepository;
 
+    @RequestMapping("/equipamentos-recebidos")
+    public ModelAndView index() {
+        var mv = new ModelAndView("operacoes/recebimentos");
+        mv.addObject("recebimentos", recebimentoService.lista());
+        return mv;
+    }
+
     @GetMapping("/receber")
     public ModelAndView cadastrar() {
-        var mv = new ModelAndView("operacoes/recebimento"); // template
+        var mv = new ModelAndView("operacoes/recebimento");
         mv.addObject("clientes", clienteService.lista());
         mv.addObject("recebimento", new Recebimento());
         return mv;
@@ -54,17 +62,15 @@ public class OperacionalController {
             Model model, RedirectAttributes attr) {
 
         if (result.hasErrors()) {
-            return "operacoes/recebimento"; // template
+            return "operacoes/recebimento";
         }
 
         Recebimento recEquip = recebimentoService.buscarEquipamento(recebimento.getEquipamento());
 
         if ((recEquip != null && recEquip.getStatus() != null && recEquip.getStatus() != Status.DEVOLVE_EQUIPAMENTO)) {
             model.addAttribute("error", "Esse equipamento já deu entrada para manutenção");
-            return "operacoes/recebimento"; // template
+            return "operacoes/recebimento";
         }
-
-        //System.out.println("\n>>> Dados do recebimento: " + recebimento);
 
         //recebimento.setStatus(Status.RECEBE_EQUIPAMENTO);
         //recebimento.setDataRecebimento(LocalDateTime.now());
@@ -73,7 +79,7 @@ public class OperacionalController {
         recebimento.receberEquipamento();
         recebimentoService.salvar(recebimento);
         attr.addFlashAttribute("success", "Recebimento efetuado com sucesso");
-        return "redirect:/"; // rota
+        return "redirect:/";
     }
 
     @GetMapping("/ordem-servico/{id}")
@@ -88,7 +94,7 @@ public class OperacionalController {
 
         if (recebimento.get().getStatus() == Status.ABRE_ORDEM_SERVICO) {
             attr.addFlashAttribute("error", "Já existe OS aberta para este equipamento");
-            return "redirect:/"; // template
+            return "redirect:/";
         }
 
         OrdemServico ordemServico = new OrdemServico();
@@ -102,29 +108,36 @@ public class OperacionalController {
     Model model, RedirectAttributes attr, @PathVariable("id") Long id) {
 
         if (result.hasErrors()) {
-            //System.out.println("\n>>> [OperacionalControler] Result Error" + result.toString());
-            return "operacoes/abertura-os"; // template
+            return "operacoes/abertura-os";
         }
 
-        Recebimento recebimento = recebimentoRepository.findById(id).orElseThrow();
-        Equipamento equipamento = equipamentoRepository.findByNumSerie(recebimento.getEquipamento().getNumSerie());
+        try {
+            Recebimento recebimento = recebimentoRepository.findById(id).orElseThrow();
+            Equipamento equipamento = equipamentoRepository.findByNumSerie(recebimento.getEquipamento().getNumSerie());
 
-        // gera um número de OS com data invertida e id
-        LocalDateTime data = LocalDateTime.now();
-		String dataFormatadaOs = data.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        var numeroOs = dataFormatadaOs + String.format("%03d", recebimento.getId());
+            // gera um número de OS com data invertida e id
+            LocalDateTime data = LocalDateTime.now();
+            String dataFormatadaOs = data.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            var numeroOs = dataFormatadaOs + String.format("%03d", recebimento.getId());
 
-        ordemServico.setEquipamento(equipamento);
-        ordemServico.setRecebimento(recebimento);
-        //ordemServico.setDataOrdemServico(LocalDateTime.now());
-        ordemServico.setNumeroOs(numeroOs);
-        //ordemServico.setStatus(Status.OS_ABERTA);
-        //recebimento.setStatus(Status.ABRE_ORDEM_SERVICO);
-        //System.out.println("\n>>> [OperacionalController] Dados da OS: " + ordemServico);
-        ordemServico.abreOrdemServico();
-        recebimento.abreOrdemServico();
-        ordemServicoService.salvar(ordemServico);
-        return "redirect:/";
+            OrdemServico os = new OrdemServico();
+            os.setEquipamento(equipamento);
+            os.setRecebimento(recebimento);
+            os.setDescricao(ordemServico.getDescricao());
+            os.setValor(ordemServico.getValor());
+            //os.setDataOrdemServico(LocalDateTime.now());
+            os.setNumeroOs(numeroOs);
+            //os.setStatus(Status.OS_ABERTA);
+            //recebimento.setStatus(Status.ABRE_ORDEM_SERVICO);
+            
+            os.abreOrdemServico();
+            recebimento.abreOrdemServico();
+            ordemServicoService.salvar(os);
+            return "redirect:/";
+        } catch(ValidacaoException e) {
+            result.addError(e.getFieldError());
+            return "operacoes/abertura-os";
+        }
     }
 
     @GetMapping("/detalhes/{id}")

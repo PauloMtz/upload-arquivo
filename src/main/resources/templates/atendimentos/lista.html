@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.w3.org/1999/xhtml" 
+    layout:decorate="~{layout}">
+<body>
+    <div class="container" layout:fragment="corpo">
+        <h2>Atendimentos</h2>
+        
+        <div class="col-md-12">
+            <table class="table table-striped" th:if="${!atendimentos.isEmpty()}">
+                <div th:replace="~{fragments/alerta}"></div>
+
+                <thead>
+                    <tr>
+                        <th scope="col">Equipamento</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Data Rec</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Nº OS.</th>
+                        <th scope="col">Total</th>
+                        <th id="opt"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="atend : ${atendimentos}">
+                        <td th:text="${atend.ordemServico.equipamento.descricao}"></td>
+                        <td th:text="${atend.ordemServico.recebimento.cliente.nome}"></td>
+                        <td th:text="${#temporals.format(atend.ordemServico.recebimento.dataRecebimento, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${atend.ordemServico.recebimento.status.getDescricao}"></td>
+                        <td th:text="${atend.ordemServico.numeroOs}"></td>
+                        <td th:text="${#numbers.formatCurrency(atend.valorTotal)}"></td>
+                        <td>
+                            <button type="button" class="btn btn-outline-warning btn-sm" 
+                                data-bs-toggle="modal" data-bs-target="#rec-detalhes"
+                                th:attr="data-id=${atend.ordemServico.recebimento.id},
+                                data-cliente=${atend.ordemServico.recebimento.cliente.nome},
+                                data-email=${atend.ordemServico.recebimento.cliente.email},
+                                data-tel=${atend.ordemServico.recebimento.cliente.telefone},
+                                data-equipamento=${atend.ordemServico.recebimento.equipamento.descricao},
+                                data-dtRec=${#temporals.format(atend.ordemServico.recebimento.dataRecebimento, 'dd/MM/yyyy')},
+                                data-marca=${atend.ordemServico.recebimento.equipamento.marca},
+                                data-modelo=${atend.ordemServico.recebimento.equipamento.modelo},
+                                data-serie=${atend.ordemServico.recebimento.equipamento.numSerie},
+                                data-obs=${atend.descricao}">Detalhes
+                            </button>
+                            <!--<a class="btn btn-outline-danger btn-sm"
+                                th:href="@{/operacao/cancelar/{id} (id=${rec.id})}">Cancelar Atendimento
+                            </a>-->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <span th:if="${atendimentos.isEmpty()}">
+                <h5>Nenhum registro</h5>
+            </span>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="rec-detalhes" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Detalhes</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Cliente</th>
+                                <td><span id="clienteModal"></span></td>
+                            </tr>
+                            <tr>
+                                <th>E-mail</th>
+                                <td><span id="emailModal"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Telefone</th>
+                                <td><span id="telModal"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Equipamento</th>
+                                <td><span id="equipamentoModal"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Marca</th>
+                                <td><span id="marcaModal"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Modelo</th>
+                                <td><span id="modeloModal"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Núm. Série</th>
+                                <td><span id="serieModal"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Obs.</th>
+                                <td><span id="obsModal"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Data do rec.</th>
+                                <td><span id="dtRecModal"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

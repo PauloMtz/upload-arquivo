@@ -2,6 +2,7 @@ package com.upload.domain.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.format.annotation.NumberFormat;
@@ -9,6 +10,7 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -68,8 +70,16 @@ public class Produto {
     @OneToMany(mappedBy = "produto")
     private List<Entrada> entradas;
 
-    public Integer atualizaSaldo(Integer valor) {
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProdutoAtendimento> atendimentos = new ArrayList<>();
+
+    public Integer incrementaSaldo(Integer valor) {
         this.saldo = this.saldo + valor;
+        return this.saldo;
+    }
+
+    public Integer baixaSaldo(Integer valor) {
+        this.saldo = this.saldo - valor;
         return this.saldo;
     }
 }

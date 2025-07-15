@@ -37,7 +37,7 @@ public class EquipamentoController {
     
     @GetMapping("/listar")
     public ModelAndView listar() {
-        var mv = new ModelAndView("equipamentos/lista"); // template
+        var mv = new ModelAndView("equipamentos/lista");
         mv.addObject("equipamentos", repository.findAll());
         return mv;
     }
@@ -111,7 +111,7 @@ public class EquipamentoController {
         }
         
         model.addAttribute("equipamento", equip);
-        return "equipamentos/form"; // template
+        return "equipamentos/form";
     }
 
     @PostMapping("/editar/{id}")
@@ -121,7 +121,7 @@ public class EquipamentoController {
 
         if (result.hasErrors()) {
             equipamento.setId(id);
-            return "equipamentos/form"; // template
+            return "equipamentos/form";
         }
 
         Equipamento equip = service.buscarEquipamento(equipamento.getNumSerie());
@@ -129,13 +129,13 @@ public class EquipamentoController {
         if (equip != null && equip.getId() != id) {
             attr.addFlashAttribute("error", 
                 String.format("Já existe um equipamento com o número de série '%s'", equip.getNumSerie()));
-            return "redirect:/equipamento/editar/" + id; // rota
+            return "redirect:/equipamento/editar/" + id;
         }
 
         equipamento.setDataAtualizacao(LocalDateTime.now());
         service.salvar(equipamento);
         attr.addFlashAttribute("success", "Registro atualizado com sucesso.");
-        return "redirect:/equipamento/listar"; // rota
+        return "redirect:/equipamento/listar";
     }
 
     @GetMapping("/excluir/{id}")
@@ -143,10 +143,10 @@ public class EquipamentoController {
         try {
             service.excluir(id);
             attr.addFlashAttribute("success", "Registro excluído com sucesso.");
-            return "redirect:/equipamento/listar"; // rota
+            return "redirect:/equipamento/listar";
         } catch (Exception e) {
             attr.addFlashAttribute("error", "Esse registro não pode ser excluído");
-            return "redirect:/equipamento/listar"; // rota
+            return "redirect:/equipamento/listar";
         }
     }
 }

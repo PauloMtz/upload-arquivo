@@ -42,7 +42,7 @@ public class ProdutoController {
 
     @GetMapping("/listar")
     public ModelAndView listar() {
-        var mv = new ModelAndView("produtos/lista"); // template
+        var mv = new ModelAndView("produtos/lista");
         mv.addObject("produtos", produtoRepository.findAll());
         return mv;
     }

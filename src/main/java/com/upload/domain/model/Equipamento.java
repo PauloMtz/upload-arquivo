@@ -18,7 +18,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString(exclude = {"dataCriacao", "dataAtualizacao"})
+@ToString
 @Getter
 @Setter
 @Entity
@@ -53,6 +53,7 @@ public class Equipamento {
     @Column(name = "data_atualizacao", insertable = false)
     private LocalDateTime dataAtualizacao;
 
+    @ToString.Exclude
     @JsonIgnore
     @OneToMany(mappedBy = "equipamento")
     private List<Recebimento> recebimentos;

@@ -1,6 +1,8 @@
 package com.upload.domain.exception;
 
-public class ArquivoNaoEncontradoException extends NullPointerException {
+import java.nio.file.NoSuchFileException;
+
+public class ArquivoNaoEncontradoException extends NoSuchFileException {
     public ArquivoNaoEncontradoException(String message) {
         super(message);
     }

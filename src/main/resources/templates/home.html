@@ -4,119 +4,61 @@
     layout:decorate="~{layout}">
 <body>
     <div class="container" layout:fragment="corpo">
-        <h2>Equipamentos recebidos</h2>
+        <h2>Página inicial</h2>
         
-        <div class="col-md-12">
-            <table class="table table-striped" th:if="${!recebimentos.isEmpty()}">
-                <div th:replace="~{fragments/alerta}"></div>
-
-                <thead>
-                    <tr>
-                        <th scope="col">Equipamento</th>
-                        <th scope="col">Marca</th>
-                        <th scope="col">Modelo</th>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Data Rec</th>
-                        <th scope="col">Status</th>
-                        <th id="opt"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="rec : ${recebimentos}">
-                        <td th:text="${rec.equipamento.descricao}"></td>
-                        <td th:text="${rec.equipamento.marca}"></td>
-                        <td th:text="${rec.equipamento.modelo}"></td>
-                        <td th:text="${rec.cliente.nome}"></td>
-                        <td th:text="${#temporals.format(rec.dataRecebimento, 'dd/MM/yyyy')}"></td>
-                        <td th:text="${rec.status.getDescricao}"></td>
-                        <td><button type="button" class="btn btn-outline-warning btn-sm" 
-                                data-bs-toggle="modal" data-bs-target="#rec-detalhes"
-                                th:attr="data-id=${rec.id},
-                                data-cliente=${rec.cliente.nome},
-                                data-email=${rec.cliente.email},
-                                data-tel=${rec.cliente.telefone},
-                                data-cidade=${rec.cliente.endereco.cidade},
-                                data-uf=${rec.cliente.endereco.uf},
-                                data-equipamento=${rec.equipamento.descricao},
-                                data-dtRec=${#temporals.format(rec.dataRecebimento, 'dd/MM/yyyy')},
-                                data-marca=${rec.equipamento.marca},
-                                data-modelo=${rec.equipamento.modelo},
-                                data-serie=${rec.equipamento.numSerie},
-                                data-obs=${rec.observacao}">Detalhes
-                            </button>
-                            <a class="btn btn-outline-primary btn-sm" 
-                                th:href="@{/operacao/ordem-servico/{id} (id=${rec.id})}">Criar OS
-                            </a>
-                            <!--<a class="btn btn-outline-danger btn-sm"
-                                th:href="@{/operacao/cancelar/{id} (id=${rec.id})}">Cancelar Atendimento
-                            </a>-->
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <span th:if="${recebimentos.isEmpty()}">
-                <h5>Nenhum registro</h5>
-            </span>
-        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="rec-detalhes" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title">Detalhes</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="row" style="margin-top:40px">
+            <div class="col-3">
+                <div class="card shadow" style="text-align:center;min-height:170px">
+                    <div class="card-header">Equipamentos Recebidos</div>
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div class="d-flex justify-content-center align-items-center" style="flex-grow:1">
+                            <h5 class="card-title text-center"><span>Qtde. </span>[[${recebimentos}]]</h5>
+                        </div>
+                        <div class="mt-auto">
+                            <a th:href="@{/operacao/equipamentos-recebidos}" class="btn btn-outline-primary">Ir para</a>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>Cliente</th>
-                                <td><span id="clienteModal"></span></td>
-                            </tr>
-                            <tr>
-                                <th>E-mail</th>
-                                <td><span id="emailModal"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Telefone</th>
-                                <td><span id="telModal"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Cidade</th>
-                                <td><span id="cidadeModal"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Estado</th>
-                                <td><span id="ufModal"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Equipamento</th>
-                                <td><span id="equipamentoModal"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Marca</th>
-                                <td><span id="marcaModal"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Modelo</th>
-                                <td><span id="modeloModal"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Núm. Série</th>
-                                <td><span id="serieModal"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Obs.</th>
-                                <td><span id="obsModal"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Data do rec.</th>
-                                <td><span id="dtRecModal"></span></td>
-                            </tr>
-                        </table>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card shadow" style="text-align:center;min-height:170px">
+                    <div class="card-header">OS. Abertas</div>
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div class="d-flex justify-content-center align-items-center" style="flex-grow:1">
+                            <h5 class="card-title text-center"><span>Qtde. </span>[[${ordensServico}]]</h5>
+                        </div>
+                        <div class="mt-auto">
+                            <a th:href="@{/ordem-servico/listar}" class="btn btn-outline-primary">Ir para</a>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card shadow" style="text-align:center;min-height:170px">
+                    <div class="card-header">Equipamentos Liberados</div>
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div class="d-flex justify-content-center align-items-center" style="flex-grow:1">
+                            <h5 class="card-title text-center"><span>Qtde. </span>[[${recebimentos}]]</h5>
+                        </div>
+                        <div class="mt-auto">
+                            <a th:href="@{/operacao/equipamentos-recebidos}" class="btn btn-outline-primary">Ir para</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card shadow" style="text-align:center;min-height:170px">
+                    <div class="card-header">Clientes Cadastrados</div>
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div class="d-flex justify-content-center align-items-center" style="flex-grow:1">
+                            <h5 class="card-title text-center"><span>Qtde. </span>[[${clientes}]]</h5>
+                        </div>
+                        <div class="mt-auto">
+                            <a th:href="@{/cliente/listar}" class="btn btn-outline-primary">Ir para</a>
+                        </div>
                     </div>
                 </div>
             </div>
